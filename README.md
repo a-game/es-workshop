@@ -20,20 +20,15 @@ docker run --name kib01 --net es-net -p 5601:5601 docker.elastic.co/kibana/kiban
 
 4. Add the enrollment token to the kibana ui
 
-5. copy cert to be able to call the api
+5. copy cert to be able to call the api programatically
 
 ```sh
 docker cp es01:/usr/share/elasticsearch/config/certs/http_ca.crt .
 ```
 
-6. create some index.
-
-7. check cluster helth
-
-8. Add a shard
+## Troubleshooting
 
 ```sh
-docker run -e ENROLLMENT_TOKEN="<token>" --name es02 --net elastic -it -m 1GB docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+docker exec -it es01 /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic
+docker exec -it es01 /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana
 ```
-
-9. Re-check cluster helth
